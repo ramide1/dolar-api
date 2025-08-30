@@ -4,13 +4,14 @@ import 'dotenv/config';
 
 const appPort: number = parseInt((process.env.APPPORT !== undefined) ? process.env.APPPORT : '3000');
 const appEndpoint: string = (process.env.APPENDPOINT !== undefined) ? process.env.APPENDPOINT : '';
+const browserPath: string = (process.env.BROWSERPATH !== undefined) ? process.env.BROWSERPATH : '';
 let browser: any = false;
 let page: any = false;
 
-const start = async () => {
+const startService = async () => {
     try {
         if (browser && page) throw new Error('Navegador y pagina ya iniciados.');
-        browser = await startBrowser();
+        browser = await startBrowser(browserPath);
         page = await startPage(browser, 'https://dolarhoy.com/');
         return true;
     } catch (error: any) {
@@ -18,7 +19,7 @@ const start = async () => {
     }
 };
 
-const stop = async () => {
+const stopService = async () => {
     try {
         if (!browser) throw new Error('Navegador no iniciado.');
         await stopBrowser(browser);
@@ -70,24 +71,14 @@ app.get('/' + appEndpoint + 'blue-buy', async (_req: any, res: any) => {
 });
 
 app.listen(appPort, async () => {
-    await start();
+    await startService();
     console.log('App escuchando en el puerto ' + appPort);
 });
 
-process.on('SIGTERM', async () => {
-    console.log('Señal SIGTERM recibida.');
-    await stop();
-    app.close(() => {
-        console.log('Cerradas conexiones restantes.');
-        process.exit(0);
-    });
+process.on('SIGTERM', () => {
+    stopService();
 });
 
-process.on('SIGINT', async () => {
-    console.log('Señal SIGINT recibida.');
-    await stop();
-    app.close(() => {
-        console.log('Cerradas conexiones restantes.');
-        process.exit(0);
-    });
+process.on('SIGINT', () => {
+    stopService();
 });
