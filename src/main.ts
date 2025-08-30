@@ -31,7 +31,7 @@ const stop = async () => {
 const app: any = express();
 app.use(express.json());
 
-app.get('/blue' + appEndpoint, async (_req: any, res: any) => {
+app.get('/' + appEndpoint + 'blue', async (_req: any, res: any) => {
     try {
         if (!browser || !page) throw new Error('Navegador o pagina no iniciados.');
         await reloadPage(page);
@@ -45,7 +45,7 @@ app.get('/blue' + appEndpoint, async (_req: any, res: any) => {
     }
 });
 
-app.get('/blue-sell' + appEndpoint, async (_req: any, res: any) => {
+app.get('/' + appEndpoint + 'blue-sell', async (_req: any, res: any) => {
     try {
         if (!browser || !page) throw new Error('Navegador o pagina no iniciados.');
         await reloadPage(page);
@@ -57,7 +57,7 @@ app.get('/blue-sell' + appEndpoint, async (_req: any, res: any) => {
     }
 });
 
-app.get('/blue-buy' + appEndpoint, async (_req: any, res: any) => {
+app.get('/' + appEndpoint + 'blue-buy', async (_req: any, res: any) => {
     try {
         if (!browser || !page) throw new Error('Navegador o pagina no iniciados.');
         await reloadPage(page);
