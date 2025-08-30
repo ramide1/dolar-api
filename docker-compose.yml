@@ -1,0 +1,14 @@
+services:
+  dolar_api:
+    build: .
+    tty: true
+    stdin_open: true
+    restart: unless-stopped
+    container_name: dolar_api
+    ports:
+      - "${APPPORT}:3000/tcp"
+    environment:
+      APPPORT: "3000"
+      APPENDPOINT: "${APPENDPOINT}"
+      PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: true
+      PUPPETEER_EXECUTABLE_PATH: "/usr/bin/chromium"
