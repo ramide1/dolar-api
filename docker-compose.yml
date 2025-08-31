@@ -10,4 +10,3 @@ services:
     environment:
       APPPORT: "3000"
       APPENDPOINT: "${APPENDPOINT}"
-      BROWSERPATH: "/usr/bin/chromium"
